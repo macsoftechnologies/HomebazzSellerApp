@@ -16,6 +16,7 @@ import { HomeBazColors } from '@/constants/theme';
 import { Header } from '@/components/common/Header';
 import { CustomInput } from '@/components/common/CustomInput';
 import { GradientButton } from '@/components/common/GradientButton';
+import { VerificationProgressBar } from '@/components/common/VerificationProgressBar';
 
 export default function BusinessDocumentsScreen() {
   const insets = useSafeAreaInsets();
@@ -39,10 +40,18 @@ export default function BusinessDocumentsScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.heading}>Tax & Business Registration</Text>
-        <Text style={styles.subheading}>
-          GST & MSME credentials. Home producers below ₹20L annual turnover are GST exempt.
-        </Text>
+        {/* Stage 5 Progress & Highlighted Hero Heading */}
+        <VerificationProgressBar
+          currentStage={5}
+          stageName="Business Documents"
+          stageTitle="Tax & Business Registration"
+          stageSubtitle="GST & MSME credentials. Home producers below ₹20L annual turnover are GST exempt."
+          categoryTag="STAGE 5 • GST & MSME"
+          iconName="document-text-outline"
+          accentColor="#7C3AED"
+          tintBg="#FAF5FF"
+          tintBorder="#DDD6FE"
+        />
 
         <View style={styles.card}>
           {/* GST Status Selection */}

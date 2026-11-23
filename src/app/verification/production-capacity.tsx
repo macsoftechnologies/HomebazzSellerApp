@@ -16,6 +16,7 @@ import { HomeBazColors } from '@/constants/theme';
 import { Header } from '@/components/common/Header';
 import { CustomInput } from '@/components/common/CustomInput';
 import { GradientButton } from '@/components/common/GradientButton';
+import { VerificationProgressBar } from '@/components/common/VerificationProgressBar';
 
 export default function ProductionCapacityScreen() {
   const insets = useSafeAreaInsets();
@@ -41,10 +42,18 @@ export default function ProductionCapacityScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.heading}>Kitchen Capacity & Output</Text>
-        <Text style={styles.subheading}>
-          Helps HomeBaz prevent order surges exceeding your domestic kitchen capacity.
-        </Text>
+        {/* Stage 7 Progress & Highlighted Hero Heading */}
+        <VerificationProgressBar
+          currentStage={7}
+          stageName="Production Capacity"
+          stageTitle="Kitchen Capacity & Output"
+          stageSubtitle="Helps HomeBaz prevent order surges exceeding your domestic kitchen capacity."
+          categoryTag="STAGE 7 • BATCH SCHEDULING"
+          iconName="speedometer-outline"
+          accentColor="#0D9488"
+          tintBg="#F0FDFA"
+          tintBorder="#99F6E4"
+        />
 
         <View style={styles.card}>
           <CustomInput

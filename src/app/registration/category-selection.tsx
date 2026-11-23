@@ -7,9 +7,11 @@ import {
   TouchableOpacity,
   View,
   StatusBar,
-  Platform} from 'react-native';
+  Platform,
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { HomeBazColors } from '@/constants/theme';
 import { Header } from '@/components/common/Header';
 import { GradientButton } from '@/components/common/GradientButton';
@@ -73,56 +75,88 @@ export default function CategorySelectionScreen() {
       <StatusBar barStyle="dark-content" />
       <Header title="Category Selection" showBack />
 
-      <View style={styles.progressBar}>
-        <View style={[styles.progressFill, { width: '80%' }]} />
+      {/* Modern Multi-Step Progress Tracker */}
+      <View style={styles.stepTrackContainer}>
+        <View style={styles.stepHeaderRow}>
+          <Text style={styles.stepIndicatorText}>Step 3 of 4 • Product Categories</Text>
+          <Text style={styles.stepPercentText}>75% Completed</Text>
+        </View>
+        <View style={styles.progressBarTrack}>
+          <LinearGradient
+            colors={['#8B5CF6', '#6C5CE7']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.progressFill, { width: '75%' }]}
+          />
+        </View>
       </View>
 
       <ScrollView
         contentContainerStyle={[styles.scrollContent, { paddingBottom: 110 + bottomClearance }]}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.heading}>Choose Your Product Categories</Text>
-        <Text style={styles.subheading}>
-          Select all categories you plan to list and sell on HomeBaz.
-        </Text>
+        {/* Highlighted Hero Heading Card */}
+        <View style={styles.heroHeadingCard}>
+          <LinearGradient
+            colors={['#F5F2FD', '#EDE9FE', '#FFFFFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.heroHeadingGradient}
+          >
+            <View style={styles.heroAccentBar} />
+
+            <View style={styles.heroContentRow}>
+              <View style={styles.heroTextCol}>
+                <View style={styles.categoryPill}>
+                  <Ionicons name="grid-outline" size={11} color="#6C5CE7" />
+                  <Text style={styles.categoryPillText}>CATALOG & CUISINE SELECTION</Text>
+                </View>
+
+                <Text style={styles.highlightedHeading}>Choose Your Categories</Text>
+                <Text style={styles.heroSubheading}>
+                  Select all homemade product categories you plan to list and sell on HomeBaz.
+                </Text>
+              </View>
+
+              <View style={styles.heroIconSquircle}>
+                <Ionicons name="grid" size={24} color="#6C5CE7" />
+              </View>
+            </View>
+          </LinearGradient>
+        </View>
 
         <View style={styles.categoriesList}>
           {categories.map((cat) => {
-            const isChecked = selectedCats.includes(cat.id);
+            const isSelected = selectedCats.includes(cat.id);
             return (
               <TouchableOpacity
                 key={cat.id}
-                style={[styles.catCard, isChecked && styles.catCardSelected]}
+                style={[styles.catCard, isSelected && styles.catCardSelected]}
                 onPress={() => toggleCategory(cat.id)}
-                activeOpacity={0.75}
+                activeOpacity={0.8}
               >
                 <View
                   style={[
                     styles.catIconBox,
-                    isChecked && { backgroundColor: HomeBazColors.primary },
+                    isSelected && { backgroundColor: HomeBazColors.primary },
                   ]}
                 >
                   <Ionicons
                     name={cat.icon}
                     size={22}
-                    color={isChecked ? '#FFFFFF' : HomeBazColors.primary}
+                    color={isSelected ? '#FFFFFF' : HomeBazColors.primary}
                   />
                 </View>
 
                 <View style={styles.catTextCol}>
-                  <Text style={[styles.catTitle, isChecked && styles.catTitleSelected]}>
+                  <Text style={[styles.catTitle, isSelected && styles.catTitleSelected]}>
                     {cat.title}
                   </Text>
                   <Text style={styles.catDesc}>{cat.desc}</Text>
                 </View>
 
-                <View
-                  style={[
-                    styles.checkbox,
-                    isChecked && styles.checkboxChecked,
-                  ]}
-                >
-                  {isChecked && <Ionicons name="checkmark" size={14} color="#FFFFFF" />}
+                <View style={[styles.checkbox, isSelected && styles.checkboxChecked]}>
+                  {isSelected && <Ionicons name="checkmark" size={16} color="#FFFFFF" />}
                 </View>
               </TouchableOpacity>
             );
@@ -132,10 +166,10 @@ export default function CategorySelectionScreen() {
 
       <View style={[styles.bottomBar, { paddingBottom: bottomClearance }]}>
         <GradientButton
-          title={`Continue (${selectedCats.length} Categories Selected)  →`}
-          disabled={selectedCats.length === 0}
+          title="Continue to Address Details  →"
           onPress={() => router.push('/registration/address-details')}
           size="large"
+          disabled={selectedCats.length === 0}
         />
       </View>
     </View>
@@ -147,30 +181,116 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F8F9FE',
   },
-  progressBar: {
-    height: 4,
-    backgroundColor: '#EFEFF5',
-    width: '100%',
+  stepTrackContainer: {
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EDE9FE',
+  },
+  stepHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  stepIndicatorText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#6C5CE7',
+    letterSpacing: 0.3,
+  },
+  stepPercentText: {
+    fontSize: 11.5,
+    fontWeight: '700',
+    color: '#4B5563',
+  },
+  progressBarTrack: {
+    height: 6,
+    backgroundColor: '#E5E7EB',
+    borderRadius: 3,
+    overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: HomeBazColors.primary,
+    borderRadius: 3,
   },
   scrollContent: {
-    padding: 20,
+    padding: 16,
     paddingBottom: 100,
   },
-  heading: {
-    fontSize: 20,
-    fontWeight: '800',
-    color: HomeBazColors.textPrimary,
+  heroHeadingCard: {
+    borderRadius: 16,
+    marginBottom: 16,
+    overflow: 'hidden',
+    borderWidth: 1.5,
+    borderColor: '#E6E0F8',
+    shadowColor: '#6C5CE7',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  heroHeadingGradient: {
+    position: 'relative',
+    padding: 16,
+  },
+  heroAccentBar: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 5,
+    backgroundColor: '#6C5CE7',
+  },
+  heroContentRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 6,
+  },
+  heroTextCol: {
+    flex: 1,
+    paddingRight: 10,
+  },
+  categoryPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    backgroundColor: '#EDE9FE',
+    alignSelf: 'flex-start',
     marginBottom: 6,
   },
-  subheading: {
-    fontSize: 13,
-    color: HomeBazColors.textSecondary,
-    marginBottom: 20,
-    lineHeight: 18,
+  categoryPillText: {
+    fontSize: 9.5,
+    fontWeight: '800',
+    color: '#6C5CE7',
+    letterSpacing: 0.5,
+  },
+  highlightedHeading: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#2E1065',
+    marginBottom: 4,
+    letterSpacing: -0.3,
+  },
+  heroSubheading: {
+    fontSize: 12.5,
+    color: '#4B5563',
+    lineHeight: 17,
+  },
+  heroIconSquircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    backgroundColor: '#EDE9FE',
+    borderWidth: 1,
+    borderColor: '#DDD6FE',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   categoriesList: {
     gap: 12,
@@ -183,6 +303,11 @@ const styles = StyleSheet.create({
     padding: 16,
     borderWidth: 1.5,
     borderColor: '#ECECF5',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
   },
   catCardSelected: {
     borderColor: HomeBazColors.primary,
@@ -191,7 +316,7 @@ const styles = StyleSheet.create({
   catIconBox: {
     width: 44,
     height: 44,
-    borderRadius: 22,
+    borderRadius: 13,
     backgroundColor: HomeBazColors.primarySoft,
     justifyContent: 'center',
     alignItems: 'center',
@@ -217,7 +342,7 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 22,
     height: 22,
-    borderRadius: 6,
+    borderRadius: 7,
     borderWidth: 2,
     borderColor: '#C7C3DF',
     justifyContent: 'center',
@@ -237,8 +362,8 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopWidth: 1,
     borderTopColor: '#ECECF5',
-  
     elevation: 20,
     zIndex: 100,
-    paddingTop: 12,},
+    paddingTop: 12,
+  },
 });

@@ -17,6 +17,7 @@ import { HomeBazColors } from '@/constants/theme';
 import { Header } from '@/components/common/Header';
 import { CustomInput } from '@/components/common/CustomInput';
 import { GradientButton } from '@/components/common/GradientButton';
+import { VerificationProgressBar } from '@/components/common/VerificationProgressBar';
 
 export default function BankDetailsScreen() {
   const insets = useSafeAreaInsets();
@@ -55,10 +56,18 @@ export default function BankDetailsScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.heading}>Bank Account for Payouts</Text>
-        <Text style={styles.subheading}>
-          Weekly earnings and sales settlements will be transferred to this account.
-        </Text>
+        {/* Stage 3 Progress & Highlighted Hero Heading */}
+        <VerificationProgressBar
+          currentStage={3}
+          stageName="Bank Account Details"
+          stageTitle="Bank Account Settlement"
+          stageSubtitle="Weekly earnings and sales settlements will be transferred directly to this account."
+          categoryTag="STAGE 3 • DIRECT PAYOUTS"
+          iconName="wallet-outline"
+          accentColor="#2563EB"
+          tintBg="#EFF6FF"
+          tintBorder="#BFDBFE"
+        />
 
         <View style={styles.card}>
           <CustomInput

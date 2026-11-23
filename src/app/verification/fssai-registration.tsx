@@ -17,6 +17,7 @@ import { HomeBazColors } from '@/constants/theme';
 import { Header } from '@/components/common/Header';
 import { CustomInput } from '@/components/common/CustomInput';
 import { GradientButton } from '@/components/common/GradientButton';
+import { VerificationProgressBar } from '@/components/common/VerificationProgressBar';
 
 export default function FssaiRegistrationScreen() {
   const insets = useSafeAreaInsets();
@@ -49,10 +50,18 @@ export default function FssaiRegistrationScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.heading}>Food Safety Compliance (FSSAI)</Text>
-        <Text style={styles.subheading}>
-          Per Indian Food Safety Regulations, all homemade food producers require a 14-digit FSSAI registration.
-        </Text>
+        {/* Stage 4 Progress & Highlighted Hero Heading */}
+        <VerificationProgressBar
+          currentStage={4}
+          stageName="FSSAI Registration"
+          stageTitle="Food Safety Compliance (FSSAI)"
+          stageSubtitle="Per Indian Food Safety Regulations, all homemade food producers require a 14-digit FSSAI registration."
+          categoryTag="STAGE 4 • FOOD SAFETY LICENSE"
+          iconName="shield-checkmark-outline"
+          accentColor="#D97706"
+          tintBg="#FFFBEB"
+          tintBorder="#FDE68A"
+        />
 
         <View style={styles.card}>
           {/* Toggle Do you have FSSAI? */}

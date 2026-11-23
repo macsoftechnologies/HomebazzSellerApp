@@ -14,6 +14,7 @@ import { HomeBazColors } from '@/constants/theme';
 import { Header } from '@/components/common/Header';
 import { ProductThumbnail } from '@/components/common/ProductThumbnail';
 import { GradientButton } from '@/components/common/GradientButton';
+import { VerificationProgressBar } from '@/components/common/VerificationProgressBar';
 import { AppImages } from '@/constants/images';
 
 export default function ProductSampleUploadScreen() {
@@ -33,10 +34,18 @@ export default function ProductSampleUploadScreen() {
         contentContainerStyle={[styles.scrollContent, { paddingBottom: 110 + bottomClearance }]}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.heading}>Audit Photos & Samples</Text>
-        <Text style={styles.subheading}>
-          HomeBaz evaluates kitchen hygiene, jar seal packaging, and taste samples before listing.
-        </Text>
+        {/* Stage 6 Progress & Highlighted Hero Heading */}
+        <VerificationProgressBar
+          currentStage={6}
+          stageName="Product Samples & Kitchen"
+          stageTitle="Audit Photos & Domestic Kitchen"
+          stageSubtitle="HomeBaz evaluates kitchen hygiene, jar seal packaging, and taste samples before listing."
+          categoryTag="STAGE 6 • KITCHEN HYGIENE AUDIT"
+          iconName="camera-outline"
+          accentColor="#DB2777"
+          tintBg="#FDF2F8"
+          tintBorder="#FBCFE8"
+        />
 
         {/* Product Photos Row */}
         <View style={styles.card}>

@@ -19,7 +19,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HomeBazLogo } from '@/components/common/HomeBazLogo';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface SplashSlide {
   id: number;
@@ -66,37 +66,161 @@ export default function SplashScreen() {
   const scrollRef = useRef<any>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Background Aurora & Wave Animations
+  // Background Ambient Animations
   const auraAnim1 = useRef(new Animated.Value(0)).current;
   const auraAnim2 = useRef(new Animated.Value(0)).current;
   const waveAnim = useRef(new Animated.Value(0)).current;
 
-  // Floating illustration bobbing animation
+  // Center Card Floating Animation
   const floatAnim = useRef(new Animated.Value(0)).current;
 
-  // Floating particles twinkle
-  const twinkleAnim = useRef(new Animated.Value(0)).current;
+  // FULL-PAGE CRACKERS & FIREWORKS FLOW ANIMATION SYSTEM
+  const crackerWave1 = useRef(new Animated.Value(0)).current;
+  const crackerWave2 = useRef(new Animated.Value(0)).current;
+  const crackerWave3 = useRef(new Animated.Value(0)).current;
+  const rocketStream = useRef(new Animated.Value(0)).current;
+  const pageFlash = useRef(new Animated.Value(0)).current;
+  const shockwavePulse = useRef(new Animated.Value(0)).current;
+  const starTwinkle = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // 1. Gentle floating bob for illustration (2.8s)
+    // 1. Center card gentle float (2.6s)
     const floatLoop = Animated.loop(
       Animated.sequence([
         Animated.timing(floatAnim, {
           toValue: 1,
-          duration: 2600,
+          duration: 2400,
           easing: Easing.inOut(Easing.sin),
           useNativeDriver: true,
         }),
         Animated.timing(floatAnim, {
           toValue: 0,
-          duration: 2600,
+          duration: 2400,
           easing: Easing.inOut(Easing.sin),
           useNativeDriver: true,
         }),
       ])
     );
 
-    // 2. Flowing aura gradient loop 1 (4.5s)
+    // 2. Full-Page Flash Light on Cracker Bursts (Celebratory Flash)
+    const flashLoop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(pageFlash, {
+          toValue: 1,
+          duration: 180,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pageFlash, {
+          toValue: 0.15,
+          duration: 350,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(pageFlash, {
+          toValue: 0.75,
+          duration: 160,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pageFlash, {
+          toValue: 0,
+          duration: 900,
+          easing: Easing.out(Easing.sin),
+          useNativeDriver: true,
+        }),
+        Animated.delay(1000),
+      ])
+    );
+
+    // 3. Cracker Burst Wave 1: Sky & Upper Screen (2.2s loop)
+    const burstLoop1 = Animated.loop(
+      Animated.sequence([
+        Animated.timing(crackerWave1, {
+          toValue: 1,
+          duration: 2100,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(crackerWave1, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    // 4. Cracker Burst Wave 2: Center & Sides Screen (2.2s loop staggered)
+    const burstLoop2 = Animated.loop(
+      Animated.sequence([
+        Animated.delay(700),
+        Animated.timing(crackerWave2, {
+          toValue: 1,
+          duration: 2100,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(crackerWave2, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    // 5. Cracker Burst Wave 3: Lower Screen & Ground Sparklers (2.2s loop staggered)
+    const burstLoop3 = Animated.loop(
+      Animated.sequence([
+        Animated.delay(1400),
+        Animated.timing(crackerWave3, {
+          toValue: 1,
+          duration: 2100,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(crackerWave3, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    // 6. Upward Flying Cracker Rockets Stream (1.9s loop)
+    const rocketLoop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(rocketStream, {
+          toValue: 1,
+          duration: 1900,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(rocketStream, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    // 7. Firecracker Expanding Shockwave
+    const shockwaveLoop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(shockwavePulse, {
+          toValue: 1,
+          duration: 2000,
+          easing: Easing.out(Easing.sin),
+          useNativeDriver: true,
+        }),
+        Animated.timing(shockwavePulse, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    // 8. Ambient gradient drift loops
     const auraLoop1 = Animated.loop(
       Animated.sequence([
         Animated.timing(auraAnim1, {
@@ -114,7 +238,6 @@ export default function SplashScreen() {
       ])
     );
 
-    // 3. Flowing aura gradient loop 2 (5.5s)
     const auraLoop2 = Animated.loop(
       Animated.sequence([
         Animated.timing(auraAnim2, {
@@ -132,7 +255,6 @@ export default function SplashScreen() {
       ])
     );
 
-    // 4. Horizontal ambient wave sweep (6s)
     const waveLoop = Animated.loop(
       Animated.sequence([
         Animated.timing(waveAnim, {
@@ -150,18 +272,17 @@ export default function SplashScreen() {
       ])
     );
 
-    // 5. Soft twinkle for particles (2.2s)
-    const twinkleLoop = Animated.loop(
+    const starLoop = Animated.loop(
       Animated.sequence([
-        Animated.timing(twinkleAnim, {
+        Animated.timing(starTwinkle, {
           toValue: 1,
-          duration: 2200,
+          duration: 1500,
           easing: Easing.inOut(Easing.sin),
           useNativeDriver: true,
         }),
-        Animated.timing(twinkleAnim, {
+        Animated.timing(starTwinkle, {
           toValue: 0,
-          duration: 2200,
+          duration: 1500,
           easing: Easing.inOut(Easing.sin),
           useNativeDriver: true,
         }),
@@ -169,19 +290,43 @@ export default function SplashScreen() {
     );
 
     floatLoop.start();
+    flashLoop.start();
+    burstLoop1.start();
+    burstLoop2.start();
+    burstLoop3.start();
+    rocketLoop.start();
+    shockwaveLoop.start();
     auraLoop1.start();
     auraLoop2.start();
     waveLoop.start();
-    twinkleLoop.start();
+    starLoop.start();
 
     return () => {
       floatLoop.stop();
+      flashLoop.stop();
+      burstLoop1.stop();
+      burstLoop2.stop();
+      burstLoop3.stop();
+      rocketLoop.stop();
+      shockwaveLoop.stop();
       auraLoop1.stop();
       auraLoop2.stop();
       waveLoop.stop();
-      twinkleLoop.stop();
+      starLoop.stop();
     };
-  }, [floatAnim, auraAnim1, auraAnim2, waveAnim, twinkleAnim]);
+  }, [
+    floatAnim,
+    pageFlash,
+    crackerWave1,
+    crackerWave2,
+    crackerWave3,
+    rocketStream,
+    shockwavePulse,
+    auraAnim1,
+    auraAnim2,
+    waveAnim,
+    starTwinkle,
+  ]);
 
   const handleNext = () => {
     if (activeIndex < SPLASH_SLIDES.length - 1) {
@@ -208,112 +353,541 @@ export default function SplashScreen() {
     }
   };
 
-  const renderIllustration = (type: SplashSlide['type']) => {
+  // FULL-PAGE CRACKERS & CELEBRATION FLASH ENGINE
+  const renderFullPageCrackers = () => {
+    // Group 1: Upper Sky Bursts (Top-Left & Top-Right)
+    const topSkySparks = [
+      // Top-Left Cluster (around x: 22%, y: 12%)
+      { cx: SCREEN_WIDTH * 0.22, cy: SCREEN_HEIGHT * 0.13, dx: 45, dy: -35, icon: 'sparkles' as const, color: '#FDE047', size: 20 },
+      { cx: SCREEN_WIDTH * 0.22, cy: SCREEN_HEIGHT * 0.13, dx: -40, dy: -30, icon: 'flash' as const, color: '#F59E0B', size: 18 },
+      { cx: SCREEN_WIDTH * 0.22, cy: SCREEN_HEIGHT * 0.13, dx: 50, dy: 35, icon: 'star' as const, color: '#F472B6', size: 16 },
+      { cx: SCREEN_WIDTH * 0.22, cy: SCREEN_HEIGHT * 0.13, dx: -45, dy: 40, icon: 'sparkles' as const, color: '#38BDF8', size: 18 },
+      { cx: SCREEN_WIDTH * 0.22, cy: SCREEN_HEIGHT * 0.13, dx: 0, dy: -55, icon: 'sparkles' as const, color: '#FDE047', size: 22 },
+
+      // Top-Right Cluster (around x: 78%, y: 15%)
+      { cx: SCREEN_WIDTH * 0.78, cy: SCREEN_HEIGHT * 0.15, dx: 50, dy: -40, icon: 'flash' as const, color: '#F59E0B', size: 22 },
+      { cx: SCREEN_WIDTH * 0.78, cy: SCREEN_HEIGHT * 0.15, dx: -50, dy: -35, icon: 'sparkles' as const, color: '#FDE047', size: 20 },
+      { cx: SCREEN_WIDTH * 0.78, cy: SCREEN_HEIGHT * 0.15, dx: 40, dy: 45, icon: 'sparkles' as const, color: '#34D399', size: 18 },
+      { cx: SCREEN_WIDTH * 0.78, cy: SCREEN_HEIGHT * 0.15, dx: -45, dy: 40, icon: 'star' as const, color: '#F472B6', size: 16 },
+      { cx: SCREEN_WIDTH * 0.78, cy: SCREEN_HEIGHT * 0.15, dx: 0, dy: 55, icon: 'sparkles' as const, color: '#FACC15', size: 20 },
+    ];
+
+    // Group 2: Mid-Screen & Card Flank Bursts (Center-Left & Center-Right)
+    const midScreenSparks = [
+      // Left of center card (around x: 14%, y: 42%)
+      { cx: SCREEN_WIDTH * 0.14, cy: SCREEN_HEIGHT * 0.42, dx: 45, dy: -45, icon: 'sparkles' as const, color: '#38BDF8', size: 22 },
+      { cx: SCREEN_WIDTH * 0.14, cy: SCREEN_HEIGHT * 0.42, dx: -35, dy: -35, icon: 'flash' as const, color: '#FDE047', size: 20 },
+      { cx: SCREEN_WIDTH * 0.14, cy: SCREEN_HEIGHT * 0.42, dx: 40, dy: 45, icon: 'star' as const, color: '#F59E0B', size: 18 },
+      { cx: SCREEN_WIDTH * 0.14, cy: SCREEN_HEIGHT * 0.42, dx: -40, dy: 35, icon: 'sparkles' as const, color: '#34D399', size: 18 },
+
+      // Right of center card (around x: 86%, y: 44%)
+      { cx: SCREEN_WIDTH * 0.86, cy: SCREEN_HEIGHT * 0.44, dx: 45, dy: -40, icon: 'flash' as const, color: '#F59E0B', size: 22 },
+      { cx: SCREEN_WIDTH * 0.86, cy: SCREEN_HEIGHT * 0.44, dx: -45, dy: -35, icon: 'sparkles' as const, color: '#F472B6', size: 20 },
+      { cx: SCREEN_WIDTH * 0.86, cy: SCREEN_HEIGHT * 0.44, dx: 40, dy: 45, icon: 'sparkles' as const, color: '#FDE047', size: 18 },
+      { cx: SCREEN_WIDTH * 0.86, cy: SCREEN_HEIGHT * 0.44, dx: -35, dy: 40, icon: 'star' as const, color: '#38BDF8', size: 16 },
+
+      // High Center Burst (behind top of card)
+      { cx: SCREEN_WIDTH * 0.5, cy: SCREEN_HEIGHT * 0.31, dx: 60, dy: -55, icon: 'sparkles' as const, color: '#FDE047', size: 22 },
+      { cx: SCREEN_WIDTH * 0.5, cy: SCREEN_HEIGHT * 0.31, dx: -60, dy: -55, icon: 'flash' as const, color: '#F59E0B', size: 22 },
+      { cx: SCREEN_WIDTH * 0.5, cy: SCREEN_HEIGHT * 0.31, dx: 0, dy: -70, icon: 'sparkles' as const, color: '#FFFFFF', size: 24 },
+    ];
+
+    // Group 3: Lower Screen Bursts (Bottom-Left & Bottom-Right above footer)
+    const lowerScreenSparks = [
+      // Bottom-Left (around x: 20%, y: 72%)
+      { cx: SCREEN_WIDTH * 0.20, cy: SCREEN_HEIGHT * 0.72, dx: 45, dy: -40, icon: 'sparkles' as const, color: '#FDE047', size: 20 },
+      { cx: SCREEN_WIDTH * 0.20, cy: SCREEN_HEIGHT * 0.72, dx: -40, dy: -35, icon: 'star' as const, color: '#34D399', size: 18 },
+      { cx: SCREEN_WIDTH * 0.20, cy: SCREEN_HEIGHT * 0.72, dx: 35, dy: 40, icon: 'flash' as const, color: '#F59E0B', size: 18 },
+      { cx: SCREEN_WIDTH * 0.20, cy: SCREEN_HEIGHT * 0.72, dx: -35, dy: 35, icon: 'sparkles' as const, color: '#F472B6', size: 16 },
+
+      // Bottom-Right (around x: 80%, y: 70%)
+      { cx: SCREEN_WIDTH * 0.80, cy: SCREEN_HEIGHT * 0.70, dx: 45, dy: -40, icon: 'flash' as const, color: '#F59E0B', size: 20 },
+      { cx: SCREEN_WIDTH * 0.80, cy: SCREEN_HEIGHT * 0.70, dx: -45, dy: -35, icon: 'sparkles' as const, color: '#FDE047', size: 22 },
+      { cx: SCREEN_WIDTH * 0.80, cy: SCREEN_HEIGHT * 0.70, dx: 35, dy: 40, icon: 'sparkles' as const, color: '#38BDF8', size: 18 },
+      { cx: SCREEN_WIDTH * 0.80, cy: SCREEN_HEIGHT * 0.70, dx: -35, dy: 35, icon: 'star' as const, color: '#FDE047', size: 16 },
+    ];
+
+    // Rockets shooting up across the full page
+    const risingRockets = [
+      { startX: SCREEN_WIDTH * 0.16, startY: SCREEN_HEIGHT * 0.85, travelY: -SCREEN_HEIGHT * 0.65, color: '#FDE047', size: 18 },
+      { startX: SCREEN_WIDTH * 0.38, startY: SCREEN_HEIGHT * 0.88, travelY: -SCREEN_HEIGHT * 0.58, color: '#F59E0B', size: 20 },
+      { startX: SCREEN_WIDTH * 0.62, startY: SCREEN_HEIGHT * 0.88, travelY: -SCREEN_HEIGHT * 0.60, color: '#F472B6', size: 18 },
+      { startX: SCREEN_WIDTH * 0.84, startY: SCREEN_HEIGHT * 0.85, travelY: -SCREEN_HEIGHT * 0.62, color: '#38BDF8', size: 20 },
+    ];
+
     return (
-      <Animated.View
-        style={[
-          styles.illustrationSection,
-          {
-            transform: [
-              {
-                translateY: floatAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [-6, 6],
-                }),
-              },
-            ],
-          },
-        ]}
-      >
-        {/* Soft Pulsing Halo Behind Illustration */}
+      <View style={StyleSheet.absoluteFill} pointerEvents="none">
+        {/* Full-Page Festive Cracker Flash Layer */}
         <Animated.View
           style={[
-            styles.backGlow,
+            StyleSheet.absoluteFill,
             {
-              transform: [
-                {
-                  scale: floatAnim.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0.94, 1.1],
-                  }),
-                },
-              ],
-              opacity: floatAnim.interpolate({
+              backgroundColor: '#FFE566',
+              opacity: pageFlash.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0.16, 0.32],
+                outputRange: [0, 0.22],
               }),
             },
           ]}
         />
 
-        {type === 'store' && (
-          <>
-            <View style={styles.storefront}>
-              <View style={styles.awning}>
-                <View style={[styles.awningStripe, { backgroundColor: '#EDE9FE' }]} />
-                <View style={[styles.awningStripe, { backgroundColor: '#A78BFA' }]} />
-                <View style={[styles.awningStripe, { backgroundColor: '#EDE9FE' }]} />
-                <View style={[styles.awningStripe, { backgroundColor: '#A78BFA' }]} />
-                <View style={[styles.awningStripe, { backgroundColor: '#EDE9FE' }]} />
-              </View>
-              <View style={styles.shopWindow}>
-                <View style={styles.windowGlass}>
-                  <View style={styles.windowReflection} />
+        {/* Central Firecracker Shockwave Pulse */}
+        <Animated.View
+          style={[
+            styles.fullPageShockwaveRing,
+            {
+              top: SCREEN_HEIGHT * 0.38 - 140,
+              left: SCREEN_WIDTH * 0.5 - 140,
+              transform: [
+                {
+                  scale: shockwavePulse.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0.65, 1.6],
+                  }),
+                },
+              ],
+              opacity: shockwavePulse.interpolate({
+                inputRange: [0, 0.35, 1],
+                outputRange: [0.65, 0.35, 0],
+              }),
+            },
+          ]}
+        />
+
+        {/* Wave 1: Sky Bursts */}
+        {topSkySparks.map((spark, idx) => (
+          <Animated.View
+            key={`top-sky-${idx}`}
+            style={[
+              styles.absoluteSpark,
+              {
+                left: spark.cx,
+                top: spark.cy,
+                transform: [
+                  {
+                    translateX: crackerWave1.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, spark.dx],
+                    }),
+                  },
+                  {
+                    translateY: crackerWave1.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, spark.dy],
+                    }),
+                  },
+                  {
+                    scale: crackerWave1.interpolate({
+                      inputRange: [0, 0.3, 0.7, 1],
+                      outputRange: [0.2, 1.45, 1.1, 0.3],
+                    }),
+                  },
+                  {
+                    rotate: crackerWave1.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: ['0deg', `${(idx % 2 === 0 ? 1 : -1) * 120}deg`],
+                    }),
+                  },
+                ],
+                opacity: crackerWave1.interpolate({
+                  inputRange: [0, 0.15, 0.75, 1],
+                  outputRange: [0, 1, 0.85, 0],
+                }),
+              },
+            ]}
+          >
+            <Ionicons name={spark.icon} size={spark.size} color={spark.color} />
+          </Animated.View>
+        ))}
+
+        {/* Wave 2: Mid-Screen Flank Bursts */}
+        {midScreenSparks.map((spark, idx) => (
+          <Animated.View
+            key={`mid-screen-${idx}`}
+            style={[
+              styles.absoluteSpark,
+              {
+                left: spark.cx,
+                top: spark.cy,
+                transform: [
+                  {
+                    translateX: crackerWave2.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, spark.dx],
+                    }),
+                  },
+                  {
+                    translateY: crackerWave2.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, spark.dy],
+                    }),
+                  },
+                  {
+                    scale: crackerWave2.interpolate({
+                      inputRange: [0, 0.3, 0.7, 1],
+                      outputRange: [0.2, 1.4, 1.05, 0.3],
+                    }),
+                  },
+                  {
+                    rotate: crackerWave2.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: ['0deg', `${(idx % 2 === 0 ? -1 : 1) * 90}deg`],
+                    }),
+                  },
+                ],
+                opacity: crackerWave2.interpolate({
+                  inputRange: [0, 0.15, 0.7, 1],
+                  outputRange: [0, 1, 0.85, 0],
+                }),
+              },
+            ]}
+          >
+            <Ionicons name={spark.icon} size={spark.size} color={spark.color} />
+          </Animated.View>
+        ))}
+
+        {/* Wave 3: Lower Screen Bursts */}
+        {lowerScreenSparks.map((spark, idx) => (
+          <Animated.View
+            key={`lower-screen-${idx}`}
+            style={[
+              styles.absoluteSpark,
+              {
+                left: spark.cx,
+                top: spark.cy,
+                transform: [
+                  {
+                    translateX: crackerWave3.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, spark.dx],
+                    }),
+                  },
+                  {
+                    translateY: crackerWave3.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, spark.dy],
+                    }),
+                  },
+                  {
+                    scale: crackerWave3.interpolate({
+                      inputRange: [0, 0.3, 0.7, 1],
+                      outputRange: [0.2, 1.35, 1.0, 0.25],
+                    }),
+                  },
+                ],
+                opacity: crackerWave3.interpolate({
+                  inputRange: [0, 0.15, 0.7, 1],
+                  outputRange: [0, 1, 0.8, 0],
+                }),
+              },
+            ]}
+          >
+            <Ionicons name={spark.icon} size={spark.size} color={spark.color} />
+          </Animated.View>
+        ))}
+
+        {/* Upward Flying Rocket Sparks Across Entire Height */}
+        {risingRockets.map((rocket, idx) => (
+          <Animated.View
+            key={`rocket-${idx}`}
+            style={[
+              styles.absoluteSpark,
+              {
+                left: rocket.startX,
+                top: rocket.startY,
+                transform: [
+                  {
+                    translateY: rocketStream.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, rocket.travelY],
+                    }),
+                  },
+                  {
+                    scale: rocketStream.interpolate({
+                      inputRange: [0, 0.4, 0.8, 1],
+                      outputRange: [0.4, 1.3, 0.9, 0.2],
+                    }),
+                  },
+                ],
+                opacity: rocketStream.interpolate({
+                  inputRange: [0, 0.1, 0.7, 1],
+                  outputRange: [0, 0.95, 0.7, 0],
+                }),
+              },
+            ]}
+          >
+            <Ionicons name="sparkles" size={rocket.size} color={rocket.color} />
+          </Animated.View>
+        ))}
+      </View>
+    );
+  };
+
+  // Render the Compact Best View Center Card (Reduced Size & Centered)
+  const renderIllustration = (type: SplashSlide['type']) => {
+    return (
+      <View style={styles.centerStageWrapper}>
+        <Animated.View
+          style={[
+            styles.compactCardContainer,
+            {
+              transform: [
+                {
+                  translateY: floatAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [-5, 5],
+                  }),
+                },
+              ],
+            },
+          ]}
+        >
+          {/* Card 1: Grow Your Business (Compact Luxury Card) */}
+          {type === 'store' && (
+            <View style={styles.showcaseCardCompact}>
+              {/* Compact Header Strip */}
+              <LinearGradient
+                colors={['#FEF3C7', '#EDE9FE', '#FFFFFF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.cardTopBannerCompact}
+              >
+                <View style={styles.cardHeaderBadgeCompact}>
+                  <Ionicons name="sparkles" size={11} color="#D97706" />
+                  <Text style={styles.cardHeaderBadgeTextCompact}>VERIFIED SELLER</Text>
                 </View>
-                <View style={styles.windowGlass}>
-                  <View style={styles.windowReflection} />
+                <View style={styles.liveOrdersPillCompact}>
+                  <View style={styles.livePulseDot} />
+                  <Text style={styles.liveOrdersTextCompact}>Active Kitchen</Text>
+                </View>
+              </LinearGradient>
+
+              {/* Compact Body */}
+              <View style={styles.cardMainBodyCompact}>
+                <View style={styles.storeProfileRowCompact}>
+                  <View style={styles.storeAvatarSquircleCompact}>
+                    <LinearGradient
+                      colors={['#8B5CF6', '#6C5CE7']}
+                      style={styles.storeAvatarGradCompact}
+                    >
+                      <Ionicons name="storefront" size={20} color="#FFFFFF" />
+                    </LinearGradient>
+                    <View style={styles.goldStarBadgeCompact}>
+                      <Ionicons name="star" size={8} color="#FFFFFF" />
+                    </View>
+                  </View>
+
+                  <View style={styles.storeTextColCompact}>
+                    <Text style={styles.storeNameTextCompact} numberOfLines={1}>
+                      Amrutha Homemade Foods
+                    </Text>
+                    <Text style={styles.storeSpecTextCompact} numberOfLines={1}>
+                      Authentic Andhra Pickles & Podis
+                    </Text>
+                    <View style={styles.ratingRowCompact}>
+                      <Ionicons name="star" size={11} color="#F59E0B" />
+                      <Text style={styles.ratingScoreCompact}>4.9</Text>
+                      <Text style={styles.reviewCountCompact}>(1.2k+)</Text>
+                      <View style={styles.fssaiTagCompact}>
+                        <Ionicons name="shield-checkmark" size={10} color="#059669" />
+                        <Text style={styles.fssaiTagTextCompact}>FSSAI</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+
+                {/* Compact Stats Strip */}
+                <View style={styles.performanceStripCompact}>
+                  <View style={styles.perfItemCompact}>
+                    <Text style={styles.perfValueCompact}>₹54.2k</Text>
+                    <Text style={styles.perfLabelCompact}>Weekly</Text>
+                  </View>
+                  <View style={styles.perfDividerCompact} />
+                  <View style={styles.perfItemCompact}>
+                    <Text style={styles.perfValueCompact}>100%</Text>
+                    <Text style={styles.perfLabelCompact}>Homemade</Text>
+                  </View>
+                  <View style={styles.perfDividerCompact} />
+                  <View style={styles.perfItemCompact}>
+                    <Text style={[styles.perfValueCompact, { color: '#059669' }]}>₹0</Text>
+                    <Text style={styles.perfLabelCompact}>Reg Fee</Text>
+                  </View>
                 </View>
               </View>
-            </View>
 
-            {/* Packaging boxes */}
-            <View style={styles.deliveryBoxLeft}>
-              <View style={styles.boxTape} />
-            </View>
-            <View style={styles.deliveryBoxRight}>
-              <View style={styles.boxTape} />
-            </View>
-          </>
-        )}
-
-        {type === 'handmade' && (
-          <View style={styles.artisanCard}>
-            <View style={styles.potCircle}>
-              <Ionicons name="restaurant" size={44} color="#6C5CE7" />
-            </View>
-            <View style={styles.sparkleBadgeTop}>
-              <Ionicons name="sparkles" size={20} color="#F59E0B" />
-            </View>
-            <View style={styles.verifiedFloatingTag}>
-              <Ionicons name="shield-checkmark" size={16} color="#059669" />
-              <Text style={styles.verifiedTagLabel}>FSSAI Assisted</Text>
-            </View>
-            <View style={styles.pickleJarGraphic}>
-              <View style={styles.jarLid} />
-              <View style={styles.jarBody}>
-                <Ionicons name="flame" size={18} color="#D97706" />
-                <Text style={styles.jarText}>Home-Made</Text>
+              {/* Compact Bottom Notification */}
+              <View style={styles.floatingOrderAlertCompact}>
+                <Ionicons name="flame" size={12} color="#D97706" />
+                <Text style={styles.floatingOrderAlertTextCompact}>
+                  18 fresh orders dispatched today
+                </Text>
               </View>
             </View>
-          </View>
-        )}
+          )}
 
-        {type === 'delivery' && (
-          <View style={styles.deliveryCard}>
-            <View style={styles.scooterCircle}>
-              <Ionicons name="bicycle" size={48} color="#6C5CE7" />
+          {/* Card 2: 100% Homemade & Quality Assured */}
+          {type === 'handmade' && (
+            <View style={styles.showcaseCardCompact}>
+              <LinearGradient
+                colors={['#ECFDF5', '#EDE9FE', '#FFFFFF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.cardTopBannerCompact}
+              >
+                <View style={[styles.cardHeaderBadgeCompact, { backgroundColor: '#D1FAE5' }]}>
+                  <Ionicons name="shield-checkmark" size={11} color="#059669" />
+                  <Text style={[styles.cardHeaderBadgeTextCompact, { color: '#065F46' }]}>
+                    HERITAGE QUALITY
+                  </Text>
+                </View>
+                <View style={[styles.liveOrdersPillCompact, { backgroundColor: '#F0FDF4' }]}>
+                  <Text style={[styles.liveOrdersTextCompact, { color: '#166534' }]}>Lab Verified</Text>
+                </View>
+              </LinearGradient>
+
+              <View style={styles.cardMainBodyCompact}>
+                <View style={styles.storeProfileRowCompact}>
+                  <View style={styles.storeAvatarSquircleCompact}>
+                    <LinearGradient
+                      colors={['#10B981', '#059669']}
+                      style={styles.storeAvatarGradCompact}
+                    >
+                      <Ionicons name="restaurant" size={20} color="#FFFFFF" />
+                    </LinearGradient>
+                    <View style={[styles.goldStarBadgeCompact, { backgroundColor: '#F59E0B' }]}>
+                      <Ionicons name="ribbon" size={8} color="#FFFFFF" />
+                    </View>
+                  </View>
+
+                  <View style={styles.storeTextColCompact}>
+                    <Text style={styles.storeNameTextCompact} numberOfLines={1}>
+                      Traditional Recipe
+                    </Text>
+                    <Text style={styles.storeSpecTextCompact} numberOfLines={1}>
+                      Wood-Pressed Oils & Spices
+                    </Text>
+                    <View style={styles.badgeChipsRowCompact}>
+                      <View style={styles.purityChipCompact}>
+                        <Text style={styles.purityChipTextCompact}>Zero Preservatives</Text>
+                      </View>
+                      <View style={styles.purityChipCompact}>
+                        <Text style={styles.purityChipTextCompact}>Clay Aged</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.performanceStripCompact}>
+                  <View style={styles.perfItemCompact}>
+                    <Ionicons name="heart" size={15} color="#EF4444" />
+                    <Text style={styles.perfLabelCompact}>Handmade</Text>
+                  </View>
+                  <View style={styles.perfDividerCompact} />
+                  <View style={styles.perfItemCompact}>
+                    <Ionicons name="leaf" size={15} color="#10B981" />
+                    <Text style={styles.perfLabelCompact}>100% Pure</Text>
+                  </View>
+                  <View style={styles.perfDividerCompact} />
+                  <View style={styles.perfItemCompact}>
+                    <Ionicons name="shield-checkmark" size={15} color="#6C5CE7" />
+                    <Text style={styles.perfLabelCompact}>Certified</Text>
+                  </View>
+                </View>
+              </View>
+
+              <View style={[styles.floatingOrderAlertCompact, { backgroundColor: '#F0FDF4', borderColor: '#DCFCE7' }]}>
+                <Ionicons name="checkmark-circle" size={12} color="#059669" />
+                <Text style={[styles.floatingOrderAlertTextCompact, { color: '#166534' }]}>
+                  Quality checked for buyer trust
+                </Text>
+              </View>
             </View>
-            <View style={styles.payoutBadge}>
-              <Ionicons name="trending-up" size={18} color="#059669" />
-              <Text style={styles.payoutBadgeText}>Weekly ₹ Direct Bank</Text>
+          )}
+
+          {/* Card 3: Zero Delivery Hassles & Fast Weekly Payouts */}
+          {type === 'delivery' && (
+            <View style={styles.showcaseCardCompact}>
+              <LinearGradient
+                colors={['#EEF2FF', '#FEF3C7', '#FFFFFF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.cardTopBannerCompact}
+              >
+                <View style={[styles.cardHeaderBadgeCompact, { backgroundColor: '#E0E7FF' }]}>
+                  <Ionicons name="bicycle" size={11} color="#4F46E5" />
+                  <Text style={[styles.cardHeaderBadgeTextCompact, { color: '#3730A3' }]}>
+                    DOORSTEP PICKUP
+                  </Text>
+                </View>
+                <View style={[styles.liveOrdersPillCompact, { backgroundColor: '#FEF3C7' }]}>
+                  <Text style={[styles.liveOrdersTextCompact, { color: '#B45309' }]}>Weekly Bank</Text>
+                </View>
+              </LinearGradient>
+
+              <View style={styles.cardMainBodyCompact}>
+                <View style={styles.storeProfileRowCompact}>
+                  <View style={styles.storeAvatarSquircleCompact}>
+                    <LinearGradient
+                      colors={['#6366F1', '#4F46E5']}
+                      style={styles.storeAvatarGradCompact}
+                    >
+                      <Ionicons name="bicycle" size={20} color="#FFFFFF" />
+                    </LinearGradient>
+                    <View style={[styles.goldStarBadgeCompact, { backgroundColor: '#10B981' }]}>
+                      <Ionicons name="flash" size={8} color="#FFFFFF" />
+                    </View>
+                  </View>
+
+                  <View style={styles.storeTextColCompact}>
+                    <Text style={styles.storeNameTextCompact} numberOfLines={1}>
+                      Rider Kitchen Pickup
+                    </Text>
+                    <Text style={styles.storeSpecTextCompact} numberOfLines={1}>
+                      Automated Doorstep Logistics
+                    </Text>
+                    <View style={styles.badgeChipsRowCompact}>
+                      <View style={[styles.purityChipCompact, { backgroundColor: '#FEF3C7' }]}>
+                        <Text style={[styles.purityChipTextCompact, { color: '#92400E' }]}>
+                          Monday Pay
+                        </Text>
+                      </View>
+                      <View style={[styles.purityChipCompact, { backgroundColor: '#E0E7FF' }]}>
+                        <Text style={[styles.purityChipTextCompact, { color: '#3730A3' }]}>
+                          Direct NEFT
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.performanceStripCompact}>
+                  <View style={styles.perfItemCompact}>
+                    <Text style={styles.perfValueCompact}>0 min</Text>
+                    <Text style={styles.perfLabelCompact}>Effort</Text>
+                  </View>
+                  <View style={styles.perfDividerCompact} />
+                  <View style={styles.perfItemCompact}>
+                    <Text style={styles.perfValueCompact}>100%</Text>
+                    <Text style={styles.perfLabelCompact}>Insured</Text>
+                  </View>
+                  <View style={styles.perfDividerCompact} />
+                  <View style={styles.perfItemCompact}>
+                    <Text style={[styles.perfValueCompact, { color: '#059669' }]}>Monday</Text>
+                    <Text style={styles.perfLabelCompact}>Payout</Text>
+                  </View>
+                </View>
+              </View>
+
+              <View style={[styles.floatingOrderAlertCompact, { backgroundColor: '#EEF2FF', borderColor: '#E0E7FF' }]}>
+                <Ionicons name="wallet-outline" size={12} color="#4F46E5" />
+                <Text style={[styles.floatingOrderAlertTextCompact, { color: '#3730A3' }]}>
+                  Weekly direct bank deposits guaranteed
+                </Text>
+              </View>
             </View>
-            <View style={styles.speedPill}>
-              <Ionicons name="flash" size={14} color="#F59E0B" />
-              <Text style={styles.speedPillText}>Doorstep Pickup</Text>
-            </View>
-          </View>
-        )}
-      </Animated.View>
+          )}
+        </Animated.View>
+      </View>
     );
   };
 
@@ -333,7 +907,7 @@ export default function SplashScreen() {
       >
         {/* Dynamic Animated Ambient Background Aura Layers */}
         <View style={StyleSheet.absoluteFill} pointerEvents="none">
-          {/* Ambient Glow Beam 1 (Top Left to Center) */}
+          {/* Ambient Glow Beam 1 */}
           <Animated.View
             style={[
               styles.bgAura1,
@@ -349,12 +923,6 @@ export default function SplashScreen() {
                     translateY: auraAnim1.interpolate({
                       inputRange: [0, 1],
                       outputRange: [-40, 30],
-                    }),
-                  },
-                  {
-                    scale: auraAnim1.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.95, 1.25],
                     }),
                   },
                 ],
@@ -373,7 +941,7 @@ export default function SplashScreen() {
             />
           </Animated.View>
 
-          {/* Ambient Glow Beam 2 (Bottom Right to Center) */}
+          {/* Ambient Glow Beam 2 */}
           <Animated.View
             style={[
               styles.bgAura2,
@@ -389,12 +957,6 @@ export default function SplashScreen() {
                     translateY: auraAnim2.interpolate({
                       inputRange: [0, 1],
                       outputRange: [20, -40],
-                    }),
-                  },
-                  {
-                    scale: auraAnim2.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [1.18, 0.92],
                     }),
                   },
                 ],
@@ -425,12 +987,6 @@ export default function SplashScreen() {
                       outputRange: [-SCREEN_WIDTH * 0.35, SCREEN_WIDTH * 0.35],
                     }),
                   },
-                  {
-                    translateY: waveAnim.interpolate({
-                      inputRange: [0, 0.5, 1],
-                      outputRange: [-15, 15, -15],
-                    }),
-                  },
                 ],
                 opacity: waveAnim.interpolate({
                   inputRange: [0, 0.5, 1],
@@ -447,112 +1003,29 @@ export default function SplashScreen() {
             />
           </Animated.View>
 
-          {/* Floating Twinkle Sparkles */}
+          {/* Ambient Star Twinkles */}
           <Animated.View
             style={[
               styles.sparkle1,
               {
-                transform: [
-                  {
-                    translateY: twinkleAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0, -12],
-                    }),
-                  },
-                  {
-                    rotate: twinkleAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: ['0deg', '25deg'],
-                    }),
-                  },
-                ],
-                opacity: twinkleAnim.interpolate({
+                opacity: starTwinkle.interpolate({
                   inputRange: [0, 0.5, 1],
                   outputRange: [0.4, 0.95, 0.4],
                 }),
               },
             ]}
           >
-            <Ionicons name="sparkles" size={20} color="#FDE047" />
-          </Animated.View>
-
-          <Animated.View
-            style={[
-              styles.sparkle2,
-              {
-                transform: [
-                  {
-                    translateY: twinkleAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0, 14],
-                    }),
-                  },
-                  {
-                    scale: twinkleAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.85, 1.25],
-                    }),
-                  },
-                ],
-                opacity: twinkleAnim.interpolate({
-                  inputRange: [0, 0.5, 1],
-                  outputRange: [0.35, 0.85, 0.35],
-                }),
-              },
-            ]}
-          >
-            <Ionicons name="star" size={14} color="#DDD6FE" />
-          </Animated.View>
-
-          <Animated.View
-            style={[
-              styles.sparkle3,
-              {
-                transform: [
-                  {
-                    translateY: twinkleAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [-10, 10],
-                    }),
-                  },
-                ],
-                opacity: twinkleAnim.interpolate({
-                  inputRange: [0, 0.5, 1],
-                  outputRange: [0.3, 0.82, 0.3],
-                }),
-              },
-            ]}
-          >
-            <Ionicons name="sparkles" size={16} color="#A7F3D0" />
-          </Animated.View>
-
-          <Animated.View
-            style={[
-              styles.sparkle4,
-              {
-                transform: [
-                  {
-                    scale: twinkleAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.9, 1.3],
-                    }),
-                  },
-                ],
-                opacity: twinkleAnim.interpolate({
-                  inputRange: [0, 0.5, 1],
-                  outputRange: [0.35, 0.9, 0.35],
-                }),
-              },
-            ]}
-          >
-            <Ionicons name="sparkles" size={16} color="#FDE68A" />
+            <Ionicons name="sparkles" size={18} color="#FDE047" />
           </Animated.View>
         </View>
 
+        {/* FULL PAGE FESTIVE CRACKERS & FIREWORKS BURSTS (COVERING COMPLETE PAGE) */}
+        {renderFullPageCrackers()}
+
         {/* Top Header Bar with Logo and Skip Button */}
-        <View style={[styles.topHeader, { paddingTop: topClearance + 8 }]}>
+        <View style={[styles.topHeader, { paddingTop: topClearance + 6 }]}>
           <View style={styles.headerLeft}>
-            <HomeBazLogo size={42} variant="whiteOnPurple" />
+            <HomeBazLogo size={40} variant="whiteOnPurple" />
           </View>
 
           <TouchableOpacity
@@ -561,7 +1034,7 @@ export default function SplashScreen() {
             style={styles.skipHeaderBtn}
           >
             <Text style={styles.skipHeaderText}>Skip to Login</Text>
-            <Ionicons name="chevron-forward" size={16} color="#FFFFFF" />
+            <Ionicons name="chevron-forward" size={15} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
 
@@ -580,11 +1053,11 @@ export default function SplashScreen() {
             <View key={slide.id} style={styles.slidePage}>
               {/* Category Pill */}
               <View style={styles.slideBadgeRow}>
-                <Ionicons name={slide.badgeIcon} size={15} color="#FDE047" />
+                <Ionicons name={slide.badgeIcon} size={14} color="#FDE047" />
                 <Text style={styles.slideBadgeText}>{slide.badge}</Text>
               </View>
 
-              {/* Dynamic Visual Illustration for each slide */}
+              {/* Reduced Compact Main Card (Centered) */}
               {renderIllustration(slide.type)}
 
               {/* Slide Headline & Description */}
@@ -597,12 +1070,12 @@ export default function SplashScreen() {
         </ScrollView>
 
         {/* Bottom Interactive Navigation Area */}
-        <View style={[styles.footerContainer, { paddingBottom: bottomClearance + 16 }]}>
+        <View style={[styles.footerContainer, { paddingBottom: bottomClearance + 12 }]}>
           {/* Swipe Hint Indicator */}
           {activeIndex < SPLASH_SLIDES.length - 1 && (
             <View style={styles.swipeHintRow}>
-              <Ionicons name="swap-horizontal" size={16} color="rgba(255, 255, 255, 0.75)" />
-              <Text style={styles.swipeHintText}>Swipe with finger or tap Next</Text>
+              <Ionicons name="swap-horizontal" size={15} color="rgba(255, 255, 255, 0.75)" />
+              <Text style={styles.swipeHintText}>Swipe or tap Next</Text>
             </View>
           )}
 
@@ -665,6 +1138,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  /* Full Page Crackers Flash & Shockwave */
+  fullPageShockwaveRing: {
+    position: 'absolute',
+    width: 280,
+    height: 280,
+    borderRadius: 140,
+    borderWidth: 2.5,
+    borderColor: 'rgba(253, 224, 71, 0.7)',
+    backgroundColor: 'rgba(253, 224, 71, 0.08)',
+  },
+  absoluteSpark: {
+    position: 'absolute',
+  },
+
   /* Ambient Aura Background Elements */
   bgAura1: {
     position: 'absolute',
@@ -696,27 +1183,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-
-  /* Floating Twinkle Sparkles */
   sparkle1: {
     position: 'absolute',
     top: 95,
     right: 28,
-  },
-  sparkle2: {
-    position: 'absolute',
-    top: 220,
-    left: 24,
-  },
-  sparkle3: {
-    position: 'absolute',
-    bottom: 260,
-    right: 36,
-  },
-  sparkle4: {
-    position: 'absolute',
-    bottom: 180,
-    left: 32,
   },
 
   /* Header */
@@ -724,7 +1194,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 22,
+    paddingHorizontal: 20,
     zIndex: 10,
   },
   headerLeft: {
@@ -735,18 +1205,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.16)',
-    paddingVertical: 7,
-    paddingHorizontal: 14,
-    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 18,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.25)',
   },
   skipHeaderText: {
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 12.5,
     fontWeight: '700',
     marginRight: 2,
   },
+
   carouselScrollView: {
     flex: 1,
   },
@@ -757,280 +1228,258 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
   },
   slideBadgeRow: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.18)',
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 20,
-    marginBottom: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 18,
+    marginBottom: 8,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.22)',
-    gap: 6,
+    gap: 5,
   },
   slideBadgeText: {
-    fontSize: 12,
+    fontSize: 11.5,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: 0.3,
   },
-  illustrationSection: {
-    width: SCREEN_WIDTH - 60,
-    height: 200,
+
+  /* Center Stage Container */
+  centerStageWrapper: {
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    marginVertical: 10,
+    marginVertical: 4,
   },
-  backGlow: {
-    position: 'absolute',
-    width: 220,
-    height: 220,
-    borderRadius: 110,
-    backgroundColor: 'rgba(255, 255, 255, 0.18)',
+
+  /* REDUCED SIZE COMPACT SHOWCASE CARD */
+  compactCardContainer: {
+    width: Math.min(SCREEN_WIDTH - 76, 290),
+    zIndex: 2,
   },
-  storefront: {
-    width: 176,
-    height: 124,
+  showcaseCardCompact: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 16,
+    borderRadius: 18,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
-    elevation: 12,
-  },
-  awning: {
-    height: 38,
-    flexDirection: 'row',
-  },
-  awningStripe: {
-    flex: 1,
-    height: '100%',
-  },
-  shopWindow: {
-    flex: 1,
-    flexDirection: 'row',
-    padding: 12,
-    gap: 8,
-    backgroundColor: '#F8F7FF',
-  },
-  windowGlass: {
-    flex: 1,
-    backgroundColor: '#DCD6F7',
-    borderRadius: 8,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  windowReflection: {
-    position: 'absolute',
-    top: 4,
-    left: 4,
-    width: 4,
-    bottom: 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    borderRadius: 2,
-  },
-  deliveryBoxLeft: {
-    position: 'absolute',
-    bottom: 20,
-    left: 36,
-    width: 48,
-    height: 44,
-    backgroundColor: '#F59E0B',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deliveryBoxRight: {
-    position: 'absolute',
-    bottom: 20,
-    right: 36,
-    width: 52,
-    height: 48,
-    backgroundColor: '#D97706',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  boxTape: {
-    width: 12,
-    height: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.35)',
-  },
-  artisanCard: {
-    width: 190,
-    height: 140,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
-    elevation: 10,
-    position: 'relative',
-  },
-  potCircle: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
-    backgroundColor: '#EDE9FE',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sparkleBadgeTop: {
-    position: 'absolute',
-    top: 10,
-    right: 14,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#FEF3C7',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  verifiedFloatingTag: {
-    position: 'absolute',
-    bottom: -10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ECFDF5',
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#A7F3D0',
-    gap: 4,
-    elevation: 4,
-  },
-  verifiedTagLabel: {
-    fontSize: 11,
-    fontWeight: '800',
-    color: '#065F46',
-  },
-  pickleJarGraphic: {
-    position: 'absolute',
-    bottom: 12,
-    left: -20,
-    width: 68,
-    height: 56,
-    backgroundColor: '#FFFBEB',
-    borderRadius: 10,
     borderWidth: 1.5,
-    borderColor: '#FDE68A',
-    elevation: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  jarLid: {
-    width: 44,
-    height: 8,
-    backgroundColor: '#B45309',
-    borderRadius: 4,
-    marginBottom: 2,
-  },
-  jarBody: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  jarText: {
-    fontSize: 8,
-    fontWeight: '800',
-    color: '#92400E',
-  },
-  deliveryCard: {
-    width: 190,
-    height: 140,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderColor: 'rgba(255, 255, 255, 0.85)',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.24,
     shadowRadius: 16,
     elevation: 10,
-    position: 'relative',
   },
-  scooterCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#F3E8FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  payoutBadge: {
-    position: 'absolute',
-    bottom: -10,
+  cardTopBannerCompact: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ECFDF5',
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#A7F3D0',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0ECFA',
+  },
+  cardHeaderBadgeCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 4,
-    elevation: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+    backgroundColor: '#FEF3C7',
   },
-  payoutBadgeText: {
-    fontSize: 11,
-    fontWeight: '800',
-    color: '#065F46',
-  },
-  speedPill: {
-    position: 'absolute',
-    top: 8,
-    left: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFBEB',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 10,
-    gap: 3,
-  },
-  speedPillText: {
+  cardHeaderBadgeTextCompact: {
     fontSize: 9,
     fontWeight: '800',
     color: '#B45309',
+    letterSpacing: 0.4,
   },
+  liveOrdersPillCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+    backgroundColor: '#F5F3FF',
+  },
+  livePulseDot: {
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
+    backgroundColor: '#10B981',
+  },
+  liveOrdersTextCompact: {
+    fontSize: 9.5,
+    fontWeight: '700',
+    color: '#6C5CE7',
+  },
+  cardMainBodyCompact: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  storeProfileRowCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  storeAvatarSquircleCompact: {
+    position: 'relative',
+    marginRight: 9,
+  },
+  storeAvatarGradCompact: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  goldStarBadgeCompact: {
+    position: 'absolute',
+    bottom: -2,
+    right: -2,
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    backgroundColor: '#F59E0B',
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  storeTextColCompact: {
+    flex: 1,
+  },
+  storeNameTextCompact: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#1E1B4B',
+    marginBottom: 1,
+    letterSpacing: -0.2,
+  },
+  storeSpecTextCompact: {
+    fontSize: 10.5,
+    color: '#6B7280',
+    marginBottom: 2,
+  },
+  ratingRowCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+  },
+  ratingScoreCompact: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#1F2937',
+  },
+  reviewCountCompact: {
+    fontSize: 10,
+    color: '#9CA3AF',
+  },
+  fssaiTagCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+    backgroundColor: '#ECFDF5',
+    paddingHorizontal: 4,
+    paddingVertical: 1,
+    borderRadius: 3,
+    marginLeft: 4,
+  },
+  fssaiTagTextCompact: {
+    fontSize: 8.5,
+    fontWeight: '800',
+    color: '#059669',
+  },
+  badgeChipsRowCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  purityChipCompact: {
+    backgroundColor: '#F3F4F6',
+    paddingHorizontal: 5,
+    paddingVertical: 1.5,
+    borderRadius: 4,
+  },
+  purityChipTextCompact: {
+    fontSize: 8.5,
+    fontWeight: '700',
+    color: '#4B5563',
+  },
+  performanceStripCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: '#F8F9FE',
+    borderRadius: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 4,
+    borderWidth: 1,
+    borderColor: '#EDE9FE',
+  },
+  perfItemCompact: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  perfDividerCompact: {
+    width: 1,
+    height: 18,
+    backgroundColor: '#E5E7EB',
+  },
+  perfValueCompact: {
+    fontSize: 11.5,
+    fontWeight: '800',
+    color: '#1E1B4B',
+    marginBottom: 1,
+  },
+  perfLabelCompact: {
+    fontSize: 8.5,
+    fontWeight: '600',
+    color: '#6B7280',
+  },
+  floatingOrderAlertCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: '#FFFBEB',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#FEF3C7',
+    justifyContent: 'center',
+  },
+  floatingOrderAlertTextCompact: {
+    fontSize: 9.5,
+    fontWeight: '700',
+    color: '#92400E',
+  },
+
+  /* Text & Footer */
   textContainer: {
     alignItems: 'center',
-    marginTop: 14,
+    marginTop: 8,
     paddingHorizontal: 12,
   },
   slideTitle: {
-    fontSize: 22,
+    fontSize: 21,
     fontWeight: '800',
     color: '#FFFFFF',
     textAlign: 'center',
-    lineHeight: 30,
+    lineHeight: 28,
     letterSpacing: -0.4,
   },
   slideSubtitle: {
-    fontSize: 13,
+    fontSize: 12.5,
     color: '#E0D7FA',
     textAlign: 'center',
-    lineHeight: 19,
-    marginTop: 8,
+    lineHeight: 18,
+    marginTop: 5,
     maxWidth: 310,
   },
   footerContainer: {
@@ -1040,38 +1489,38 @@ const styles = StyleSheet.create({
   swipeHintRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    marginBottom: 12,
+    gap: 5,
+    marginBottom: 8,
     backgroundColor: 'rgba(0, 0, 0, 0.15)',
-    paddingHorizontal: 14,
-    paddingVertical: 4,
-    borderRadius: 14,
+    paddingHorizontal: 12,
+    paddingVertical: 3.5,
+    borderRadius: 12,
   },
   swipeHintText: {
-    fontSize: 11,
+    fontSize: 10.5,
     color: 'rgba(255, 255, 255, 0.85)',
     fontWeight: '600',
   },
   dotsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    marginBottom: 16,
+    gap: 7,
+    marginBottom: 12,
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
     backgroundColor: 'rgba(255, 255, 255, 0.35)',
   },
   dotActive: {
-    width: 24,
+    width: 22,
     backgroundColor: '#FFFFFF',
   },
   actionButton: {
     width: '100%',
-    height: 52,
-    borderRadius: 16,
+    height: 50,
+    borderRadius: 15,
     backgroundColor: 'rgba(255, 255, 255, 0.22)',
     borderWidth: 1.5,
     borderColor: 'rgba(255, 255, 255, 0.4)',
@@ -1090,7 +1539,7 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 15.5,
     fontWeight: '800',
   },
   actionButtonFinalText: {

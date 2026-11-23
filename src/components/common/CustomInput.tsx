@@ -67,7 +67,7 @@ export const CustomInput: React.FC<CustomInputProps> = ({
 
         <TextInput
           placeholderTextColor="#A8A5B8"
-          secureTextEntry={isPassword && !showPassword}
+          secureTextEntry={isPassword ? !showPassword : false}
           onFocus={(e) => {
             setIsFocused(true);
             onFocus?.(e);
@@ -99,14 +99,15 @@ export const CustomInput: React.FC<CustomInputProps> = ({
 
         {isPassword && (
           <TouchableOpacity
-            onPress={() => setShowPassword(!showPassword)}
+            onPress={() => setShowPassword((prev) => !prev)}
             style={styles.eyeButton}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            activeOpacity={0.7}
           >
             <Ionicons
-              name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-              size={18}
-              color="#9B97B0"
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={20}
+              color={showPassword ? HomeBazColors.primary : '#9B97B0'}
             />
           </TouchableOpacity>
         )}

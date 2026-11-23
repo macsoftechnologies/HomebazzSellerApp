@@ -60,8 +60,20 @@ export default function AddressDetailsScreen() {
       <StatusBar barStyle="dark-content" />
       <Header title="Address Details" showBack />
 
-      <View style={styles.progressBar}>
-        <View style={[styles.progressFill, { width: '100%' }]} />
+      {/* Modern Multi-Step Progress Tracker */}
+      <View style={styles.stepTrackContainer}>
+        <View style={styles.stepHeaderRow}>
+          <Text style={styles.stepIndicatorText}>Step 4 of 4 • Kitchen & Pickup Address</Text>
+          <Text style={styles.stepPercentText}>100% Completed</Text>
+        </View>
+        <View style={styles.progressBarTrack}>
+          <LinearGradient
+            colors={['#8B5CF6', '#10B981']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.progressFill, { width: '100%' }]}
+          />
+        </View>
       </View>
 
       <ScrollView
@@ -69,11 +81,38 @@ export default function AddressDetailsScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.heading}>Kitchen & Pickup Address</Text>
-        <Text style={styles.subheading}>
-          Where our delivery partners will arrive to collect packed customer orders.
-        </Text>
+        {/* Highlighted Hero Heading Card for "Kitchen & Pickup Address" */}
+        <View style={styles.heroHeadingCard}>
+          <LinearGradient
+            colors={['#ECFDF5', '#D1FAE5', '#FFFFFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.heroHeadingGradient}
+          >
+            <View style={styles.heroAccentBar} />
 
+            <View style={styles.heroContentRow}>
+              <View style={styles.heroTextCol}>
+                <View style={styles.categoryPill}>
+                  <Ionicons name="location" size={11} color="#059669" />
+                  <Text style={styles.categoryPillText}>PICKUP FULFILLMENT • LOGISTICS HUB</Text>
+                </View>
+
+                {/* Highlighted Heading Color */}
+                <Text style={styles.highlightedHeading}>Kitchen & Pickup Address</Text>
+                <Text style={styles.heroSubheading}>
+                  Where HomeBaz delivery partners will arrive to collect freshly packed customer orders.
+                </Text>
+              </View>
+
+              <View style={styles.heroIconSquircle}>
+                <Ionicons name="location" size={24} color="#059669" />
+              </View>
+            </View>
+          </LinearGradient>
+        </View>
+
+        {/* Address Form Card */}
         <View style={styles.formCard}>
           <CustomInput
             label="Door / Flat / House No."
@@ -98,7 +137,7 @@ export default function AddressDetailsScreen() {
             leftIcon="navigate-outline"
             value={landmark}
             onChangeText={setLandmark}
-            placeholder="e.g. Near Children’s Park"
+            placeholder="e.g. Near Siripuram Circle / Park"
           />
 
           <View style={styles.rowInputs}>
@@ -124,8 +163,16 @@ export default function AddressDetailsScreen() {
             </View>
           </View>
 
+          {/* Service Area Verified Tag */}
+          <View style={styles.pincodeStatusBadge}>
+            <Ionicons name="checkmark-circle" size={14} color="#059669" />
+            <Text style={styles.pincodeStatusText}>
+              HomeBaz Express Rider Fleet active in pincode {pincode}
+            </Text>
+          </View>
+
           <CustomInput
-            label="State"
+            label="State (Registered Jurisdiction)"
             required
             value={state}
             onChangeText={setState}
@@ -134,16 +181,25 @@ export default function AddressDetailsScreen() {
           />
 
           <CustomInput
-            label="Doorstep Pickup Instructions"
+            label="Doorstep Pickup Instructions (For Delivery Riders)"
             value={pickupNote}
             onChangeText={setPickupNote}
             multiline
             numberOfLines={3}
-            placeholder="Instructions for HomeBaz pickup rider..."
+            placeholder="e.g. Ground floor kitchen entrance, call before arriving..."
           />
+
+          {/* Rider Handover Instruction Note */}
+          <View style={styles.pickupGuidance}>
+            <Ionicons name="bicycle-outline" size={16} color="#4F46E5" />
+            <Text style={styles.pickupGuidanceText}>
+              Riders are instructed to verify packaging seal and OTP confirmation before leaving your premises.
+            </Text>
+          </View>
         </View>
       </ScrollView>
 
+      {/* Fixed Bottom Bar */}
       <View style={[styles.bottomBar, { paddingBottom: bottomClearance }]}>
         {errorMessage ? (
           <View style={styles.errorBanner}>
@@ -306,40 +362,167 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F8F9FE',
   },
-  progressBar: {
-    height: 4,
-    backgroundColor: '#EFEFF5',
-    width: '100%',
+  stepTrackContainer: {
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EDE9FE',
+  },
+  stepHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  stepIndicatorText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#059669',
+    letterSpacing: 0.3,
+  },
+  stepPercentText: {
+    fontSize: 11.5,
+    fontWeight: '700',
+    color: '#059669',
+  },
+  progressBarTrack: {
+    height: 6,
+    backgroundColor: '#E5E7EB',
+    borderRadius: 3,
+    overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: HomeBazColors.primary,
+    borderRadius: 3,
   },
   scrollContent: {
-    padding: 20,
+    padding: 16,
     paddingBottom: 100,
   },
-  heading: {
-    fontSize: 20,
-    fontWeight: '800',
-    color: HomeBazColors.textPrimary,
+  heroHeadingCard: {
+    borderRadius: 16,
+    marginBottom: 16,
+    overflow: 'hidden',
+    borderWidth: 1.5,
+    borderColor: '#A7F3D0',
+    shadowColor: '#059669',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  heroHeadingGradient: {
+    position: 'relative',
+    padding: 16,
+  },
+  heroAccentBar: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 5,
+    backgroundColor: '#059669',
+  },
+  heroContentRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 6,
+  },
+  heroTextCol: {
+    flex: 1,
+    paddingRight: 10,
+  },
+  categoryPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    backgroundColor: '#D1FAE5',
+    alignSelf: 'flex-start',
     marginBottom: 6,
   },
-  subheading: {
-    fontSize: 13,
-    color: HomeBazColors.textSecondary,
-    marginBottom: 20,
-    lineHeight: 18,
+  categoryPillText: {
+    fontSize: 9.5,
+    fontWeight: '800',
+    color: '#065F46',
+    letterSpacing: 0.5,
+  },
+  highlightedHeading: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#064E3B',
+    marginBottom: 4,
+    letterSpacing: -0.3,
+  },
+  heroSubheading: {
+    fontSize: 12.5,
+    color: '#4B5563',
+    lineHeight: 17,
+  },
+  heroIconSquircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    backgroundColor: '#D1FAE5',
+    borderWidth: 1,
+    borderColor: '#A7F3D0',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   formCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
-    padding: 16,
+    padding: 18,
     borderWidth: 1,
     borderColor: '#ECECF5',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
   },
   rowInputs: {
     flexDirection: 'row',
+  },
+  pincodeStatusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#F0FDF4',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#DCFCE7',
+    marginBottom: 14,
+  },
+  pincodeStatusText: {
+    fontSize: 11.5,
+    color: '#166534',
+    fontWeight: '600',
+    flex: 1,
+  },
+  pickupGuidance: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#EEF2FF',
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#E0E7FF',
+    marginTop: 8,
+  },
+  pickupGuidanceText: {
+    fontSize: 11.5,
+    color: '#3730A3',
+    lineHeight: 16,
+    flex: 1,
+    fontWeight: '500',
   },
   bottomBar: {
     position: 'absolute',
@@ -381,57 +564,60 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalBackdropPressable: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    ...StyleSheet.absoluteFill,
   },
   modalContainer: {
     width: '100%',
-    maxWidth: 380,
+    maxWidth: 390,
     backgroundColor: '#FFFFFF',
     borderRadius: 24,
     overflow: 'hidden',
-    shadowColor: '#280F65',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.25,
-    shadowRadius: 24,
-    elevation: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.22,
+    shadowRadius: 28,
+    elevation: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(235, 230, 252, 0.8)',
   },
   modalTopAccentStripe: {
-    height: 6,
+    height: 5,
     width: '100%',
   },
   modalCloseBtn: {
     position: 'absolute',
     top: 14,
     right: 14,
-    width: 28,
-    height: 28,
-    borderRadius: 8,
-    backgroundColor: '#F4F2F9',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#F4F2FA',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,
   },
   modalContent: {
-    padding: 22,
-    paddingTop: 18,
+    paddingHorizontal: 22,
+    paddingTop: 24,
+    paddingBottom: 22,
     alignItems: 'center',
   },
   badgeWrapper: {
     marginBottom: 14,
-    position: 'relative',
   },
   badgeBackground: {
-    width: 72,
-    height: 72,
+    width: 76,
+    height: 76,
     borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1.5,
-    borderColor: '#DFD5F8',
+    borderColor: '#DFD8F7',
+    shadowColor: '#6C5CE7',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.16,
+    shadowRadius: 14,
+    elevation: 6,
   },
   badgeSparkleTop: {
     position: 'absolute',
@@ -446,54 +632,54 @@ const styles = StyleSheet.create({
   milestonePill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: 6,
     backgroundColor: '#ECFDF5',
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: '#A7F3D0',
-    paddingHorizontal: 9,
-    paddingVertical: 3,
-    borderRadius: 8,
-    marginBottom: 8,
+    marginBottom: 12,
   },
   milestonePillText: {
-    fontSize: 10,
+    fontSize: 10.5,
     fontWeight: '800',
-    color: '#059669',
-    letterSpacing: 0.4,
+    color: '#065F46',
+    letterSpacing: 0.5,
   },
   modalTitle: {
     fontSize: 21,
-    fontWeight: '900',
-    color: '#1E1B39',
-    letterSpacing: -0.4,
+    fontWeight: '800',
+    color: '#1F1B33',
     textAlign: 'center',
-    marginBottom: 6,
+    letterSpacing: -0.3,
+    marginBottom: 8,
   },
   modalSubtitle: {
-    fontSize: 12.5,
-    color: '#68647A',
+    fontSize: 13,
+    color: '#65607A',
     textAlign: 'center',
-    lineHeight: 18,
-    marginBottom: 14,
+    lineHeight: 18.5,
+    marginBottom: 18,
     paddingHorizontal: 4,
   },
   storeNameHighlight: {
+    fontWeight: '700',
     color: '#6C5CE7',
-    fontWeight: '800',
   },
   roadmapCard: {
     width: '100%',
     backgroundColor: '#FAF9FE',
     borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#EDE8F8',
     padding: 12,
-    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#ECE7F8',
+    marginBottom: 14,
   },
   roadmapHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: 6,
     marginBottom: 10,
     paddingBottom: 6,
     borderBottomWidth: 1,
@@ -503,29 +689,29 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '800',
     color: '#6C5CE7',
-    letterSpacing: 0.5,
+    letterSpacing: 0.6,
   },
   roadmapStepRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 9,
+    marginBottom: 8,
   },
   stepNumBadge: {
-    width: 20,
-    height: 20,
-    borderRadius: 6,
+    width: 22,
+    height: 22,
+    borderRadius: 7,
     backgroundColor: '#6C5CE7',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 9,
+    marginRight: 10,
+  },
+  stepNumBadgeInactive: {
+    backgroundColor: '#E5E0F2',
   },
   stepNumText: {
     fontSize: 11,
     fontWeight: '800',
     color: '#FFFFFF',
-  },
-  stepNumBadgeInactive: {
-    backgroundColor: '#ECE7F6',
   },
   stepNumTextInactive: {
     fontSize: 11,
@@ -536,35 +722,34 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   stepTitle: {
-    fontSize: 11.5,
+    fontSize: 12.5,
     fontWeight: '700',
-    color: '#1E1B39',
+    color: '#1F1B33',
   },
   stepDesc: {
-    fontSize: 10,
+    fontSize: 11,
     color: '#8A85A3',
   },
   stepStatusTag: {
-    backgroundColor: '#EEF2FF',
+    backgroundColor: '#EDE9FE',
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#C7D2FE',
   },
   stepStatusTagText: {
     fontSize: 9,
     fontWeight: '800',
-    color: '#4F46E5',
+    color: '#6C5CE7',
+    letterSpacing: 0.4,
   },
   securityRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: 5,
     marginBottom: 16,
   },
   securityText: {
-    fontSize: 10,
+    fontSize: 10.5,
     color: '#8A85A3',
     fontWeight: '500',
   },
@@ -573,11 +758,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   secondaryReviewBtn: {
-    paddingVertical: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
   },
   secondaryReviewBtnText: {
-    fontSize: 12,
-    color: '#8A85A3',
+    fontSize: 12.5,
     fontWeight: '600',
+    color: '#65607A',
   },
 });
